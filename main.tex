@@ -1,19 +1,43 @@
-\documentclass{article}
-\usepackage[utf8]{vietnam}
-% for chart
-\usepackage{textcomp}
-\usepackage{pgfplots}
-\pgfplotsset{width=13cm,compat=1.9}
-% for chart
+\documentclass[tikz]{standalone}
 
-\title{workspace}
-\author{Nguyễn Tí Hon}
-\date{July 2021}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepgfplotslibrary{groupplots}
+
+\usepackage{multicol}
+\setlength\columnsep{10pt}
 
 \begin{document}
 
-\maketitle
+\pgfplotstableread[row sep=\\,col sep=&]{
+    interval & rec & prec & fscore \\
+    Pointer     & 56.92 & 49.33  & 51.28 \\
+    Centroid-based     & 65.92 & 43.53  & 49.04 \\
+    }\mydata
 
-\section{Introduction}
-\input{char1}
+\begin{tikzpicture}
+ \centering
+    \begin{axis}[
+            ybar,
+            bar width=.8cm,
+            width=1\textwidth,
+            height=0.8\textwidth,
+            legend style={at={(0.5,1)},
+                anchor=north, legend columns=-1},
+            symbolic x coords={Centroid-based, Pointer},
+            x tick label style={/pgf/number format/1000 sep=},
+        	enlarge x limits=0.5,
+            xtick = data,
+            nodes near coords,
+            nodes near coords align={vertical},
+            ymin = 0, ymax = 80,
+            ylabel = {\%},
+        ]
+        \addplot[ybar, pattern=north east lines] table[x=interval, y=rec]{\mydata} ;
+        \addplot[ybar, pattern=vertical lines] table[x=interval, y=prec]{\mydata};
+        \addplot[ybar, pattern=dots] table[x=interval, y=fscore]{\mydata};
+        \legend{Recall, Precision, F-scrore}
+    \end{axis}
+\end{tikzpicture}
 \end{document}
