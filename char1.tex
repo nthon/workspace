@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+        \begin{axis}[
+            symbolic x coords={BoW, TF-IDF, W2V, Glove, Fasttext},
+            xtick=data
+          ]
+            \addplot[ybar,fill=gray] coordinates {
+                (BoW,   42)
+                (TF-IDF,  50)
+                (W2V,   80)
+                (Glove,   80)
+                (Fasttext,   80)
+            };
+        \end{axis}
+    \end{tikzpicture}
